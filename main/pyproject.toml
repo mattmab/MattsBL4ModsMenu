@@ -1,0 +1,12 @@
+[project]
+name = "BL4NativeModsMenu"
+version = "1.1.11"
+description = "Native in-game UMG menu for managing PythonSDK mods in Borderlands 4."
+authors = [{ name = "Mattmab" }]
+requires-python = ">=3.11"
+
+[tool.sdkmod]
+name = "BL4NativeModsMenu"
+version = "1.1.11"
+coop_support = "ClientSide"
+description = "Native in-game UMG menu for browsing, searching, enabling, disabling, reloading, configuring, and rebinding PythonSDK mods in Borderlands 4."
