@@ -9,4 +9,4 @@ name = "BL4NativeModsMenu"
 license = {name = "MIT", url = "https://choosealicense.com/licenses/mit/" }
 version = "1.1.11"
 coop_support = "ClientSide"
-download = "https://github.com/mattmab/BL4NativeModsMenu/BL4NativeModsMenu.sdkmod"
+download = "https://github.com/mattmab/BL4NativeModsMenu/raw/refs/heads/main/BL4NativeModsMenu.sdkmod"
