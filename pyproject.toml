@@ -8,5 +8,5 @@ description = "Unofficial community-made Borderlands 4 PythonSDK mod manager UI 
 name = "MattsBL4ModsMenu"
 license = {name = "MIT", url = "https://choosealicense.com/licenses/mit/" }
 supported_games = ["BL4"]
-download = "https://github.com/mattmab/BL4NativeModsMenu/raw/refs/heads/main/MattsBL4ModsMenu.sdkmod"
+download = "https://github.com/mattmab/MattsBL4ModsMenu/raw/refs/heads/main/MattsBL4ModsMenu.sdkmod"
 version = "1.1.13"
