@@ -17,8 +17,8 @@ from mods_base import CoopSupport, Game, build_mod, command
 from unrealsdk import logging
 from unrealsdk.hooks import Type, Block
 
-VERSION = "v1.1.11-bl4-native-mods-menu-name"
-PREFIX = "[BL4NativeModsMenu]"
+VERSION = "v1.1.12-matts-unofficial-name"
+PREFIX = "[MattsBL4ModsMenu]"
 DEBUG_LOGGING = False
 
 # Hook IDs are intentionally stable and production-named.
@@ -116,7 +116,7 @@ TEXT_INPUT_KEY_NAMES = [
     "Apostrophe", "LeftBracket", "RightBracket",
 ]
 
-# Keys consumed while a BL4NativeModsMenu text field owns input. These are blocked
+# Keys consumed while a MattsBL4ModsMenu text field owns input. These are blocked
 # from BL4's underlying menus so Enter commits search/options and Esc cancels
 # the field instead of also activating/backing out another screen.
 TEXT_INPUT_CONSUME_KEY_NAMES = set(TEXT_INPUT_KEY_NAMES) | {"Return", "NumPadEnter"}
@@ -627,7 +627,7 @@ class InputSnapshot:
 
 
 @dataclass
-class BL4NativeModsMenuState:
+class MattsBL4ModsMenuState:
     is_open: bool = False
     screen: str = SCREEN_MAIN
 
@@ -754,7 +754,7 @@ class BL4NativeModsMenuState:
 
 
 
-STATE = BL4NativeModsMenuState()
+STATE = MattsBL4ModsMenuState()
 
 
 # ---------------------------------------------------------------------------
@@ -765,7 +765,7 @@ def _sdk_mods_dir_from_file() -> Path:
     """Locate the real sdk_mods folder for the canonical settings path.
 
     The settings file intentionally has exactly one supported location:
-        <Borderlands 4>/sdk_mods/settings/BL4NativeModsMenu/native_mods_menu_user_settings.json
+        <Borderlands 4>/sdk_mods/settings/MattsBL4ModsMenu/native_mods_menu_user_settings.json
 
     Packed .sdkmod imports still include the real sdk_mods path in __file__, so
     parse that and do not fall back to AppData, home, or the archive folder.
@@ -785,7 +785,7 @@ def _sdk_mods_dir_from_file() -> Path:
 
 
 def _settings_base_dir() -> Path:
-    return _sdk_mods_dir_from_file() / "settings" / "BL4NativeModsMenu"
+    return _sdk_mods_dir_from_file() / "settings" / "MattsBL4ModsMenu"
 
 
 def user_settings_path() -> Path:
@@ -1100,7 +1100,7 @@ def set_launcher_position_mode(mode: str) -> None:
         mode = "top_left"
     STATE.launcher_position_mode = mode
     apply_launcher_position_change(rebuild=True)
-    log(f"SDK MODS button position: {launcher_position_label()}")
+    log(f"Matt's Mods button position: {launcher_position_label()}")
 
 
 
@@ -1109,7 +1109,7 @@ def nudge_launcher_custom(dx: float, dy: float) -> None:
     STATE.launcher_position_mode = "custom"
     STATE.launcher_custom_x, STATE.launcher_custom_y = clamp_launcher_custom_position(x + float(dx), y + float(dy))
     apply_launcher_position_change(rebuild=True)
-    log(f"SDK MODS custom position set to {int(STATE.launcher_custom_x)}, {int(STATE.launcher_custom_y)}")
+    log(f"Matt's Mods custom position set to {int(STATE.launcher_custom_x)}, {int(STATE.launcher_custom_y)}")
 
 
 def set_launcher_custom_position(x: float, y: float, *, rebuild: bool = True, quiet: bool = False) -> None:
@@ -1117,7 +1117,7 @@ def set_launcher_custom_position(x: float, y: float, *, rebuild: bool = True, qu
     STATE.launcher_custom_x, STATE.launcher_custom_y = clamp_launcher_custom_position(float(x), float(y))
     apply_launcher_position_change(rebuild=rebuild)
     if not quiet:
-        log(f"SDK MODS custom position set to {int(STATE.launcher_custom_x)}, {int(STATE.launcher_custom_y)}")
+        log(f"Matt's Mods custom position set to {int(STATE.launcher_custom_x)}, {int(STATE.launcher_custom_y)}")
 
 
 
@@ -1156,7 +1156,7 @@ def remove_launcher_position_preview(*, safe: bool = True) -> None:
 def build_launcher_position_preview() -> None:
     """Draw the draggable launcher preview as its own viewport widget.
 
-    This uses the exact same viewport path as the real SDK MODS launcher instead
+    This uses the exact same viewport path as the real Matt's Mods launcher instead
     of approximating the position inside the menu canvas.  It avoids DPI/layout
     drift and gives the polling drag code a single raw-screen rectangle to track.
     """
@@ -1194,7 +1194,7 @@ def build_launcher_position_preview() -> None:
             set_raw_slot(bg, 0, 0, LAUNCHER_W, LAUNCHER_H, 5)
 
             tb = construct("/Script/UMG.TextBlock", widget.WidgetTree)
-            try_call(tb, "SetText", "SDK MODS")
+            try_call(tb, "SetText", "MATT'S MODS")
             try_call(tb, "SetJustification", 1)
             try_call(tb, "SetRenderScale", vec2(1.55, 1.55))
             set_hit_test_invisible(tb)
@@ -1238,7 +1238,7 @@ def launcher_text_field_active(axis: str) -> bool:
 
 
 def poll_launcher_position_drag() -> None:
-    """Click-pickup / click-drop placement for the SDK MODS launcher.
+    """Click-pickup / click-drop placement for the Matt's Mods launcher.
 
     BL4 does not expose a reliable held-left-click state for runtime UMG
     widgets, so true drag-hold fails.  This uses the proven V3 behavior:
@@ -1308,7 +1308,7 @@ def poll_launcher_position_drag() -> None:
             STATE.launcher_place_offset_x = float(mx) - float(px)
             STATE.launcher_place_offset_y = float(my) - float(py)
             STATE.launcher_position_mode = "custom"
-            STATE.last_status = "Move SDK MODS button: move mouse, click again to place"
+            STATE.last_status = "Move Matt's Mods button: move mouse, click again to place"
             sync_launcher_position_preview_geometry()
             build_button_position_screen()
     else:
@@ -1327,7 +1327,7 @@ def poll_launcher_position_drag() -> None:
             STATE.launcher_place_saved_until = time.monotonic() + 3.0
             STATE.launcher_place_saved_last_count = -1
             STATE.last_status = f"Location saved. Returning to Mods menu in 3..."
-            log(f"SDK MODS custom position set to {int(STATE.launcher_custom_x)}, {int(STATE.launcher_custom_y)}")
+            log(f"Matt's Mods custom position set to {int(STATE.launcher_custom_x)}, {int(STATE.launcher_custom_y)}")
             build_button_position_screen()
 
     STATE.launcher_place_click_was_down = bool(click_pulse)
@@ -1963,7 +1963,7 @@ def reload_record(rec: dict[str, Any]) -> None:
         if is_self_reload:
             # Reloading this mod must still release the viewport first, otherwise
             # the old UMG wrappers can survive into the new module instance.
-            log("Reloading BL4NativeModsMenu; closing overlay first")
+            log("Reloading MattsBL4ModsMenu; closing overlay first")
             if STATE.is_open:
                 close_menu()
         else:
@@ -2422,7 +2422,7 @@ def build_header(f: NativeUMGFactory, menu: Any, title: str) -> None:
              fill=(0.00, 0.48, 0.55, 0.98) if STATE.screen == SCREEN_KEYBINDS else (0.00, 0.28, 0.32, 0.98),
              scale=0.43, z=60, enabled=STATE.screen != SCREEN_KEYBINDS)
     if STATE.screen in (SCREEN_MAIN, SCREEN_KEYBINDS):
-        f.button(menu, "Move SDK Button", 780, 34, 220, 44, begin_launcher_button_placement,
+        f.button(menu, "Move Menu Button", 780, 34, 220, 44, begin_launcher_button_placement,
                  fill=(0.00, 0.34, 0.38, 0.98), scale=0.35, z=60)
     build_text_scale_control(f, menu)
 
@@ -2438,7 +2438,7 @@ def begin_launcher_button_placement() -> None:
     STATE.launcher_dragging = False
     STATE.launcher_place_saved_until = 0.0
     STATE.launcher_place_saved_last_count = -1
-    STATE.last_status = "Click the translucent SDK MODS button, move it, then click again to place"
+    STATE.last_status = "Click the translucent Matt's Mods button, move it, then click again to place"
     build_button_position_screen()
 
 
@@ -2453,10 +2453,10 @@ def cancel_launcher_button_placement() -> None:
 
 
 def build_button_position_screen() -> None:
-    """Minimal full-screen placement overlay for the SDK MODS launcher.
+    """Minimal full-screen placement overlay for the Matt's Mods launcher.
 
     This is intentionally not a settings submenu.  The user enters placement
-    mode from the main Mods screen, clicks the translucent SDK MODS button to
+    mode from the main Mods screen, clicks the translucent Matt's Mods button to
     pick it up, moves the mouse, then clicks again to save/drop it.
     """
     STATE.screen = SCREEN_BUTTON_POSITION
@@ -2471,20 +2471,20 @@ def build_button_position_screen() -> None:
         remaining = max(0.0, STATE.launcher_place_saved_until - time.monotonic())
         count = max(1, int(remaining) + 1)
         title = f"LOCATION SAVED — RETURNING TO MODS MENU IN {count}"
-        body = "Your SDK MODS button position has been cached. The Mods menu will reopen automatically."
+        body = "Your Matt's Mods button position has been cached. The Mods menu will reopen automatically."
         title_fill = (0.04, 0.30, 0.10, 0.965)
     elif STATE.launcher_place_picked_up:
         title = "MOVE THE MOUSE, THEN CLICK AGAIN TO PLACE"
-        body = "The translucent SDK MODS button is following your cursor. Click again to save the new position."
+        body = "The translucent Matt's Mods button is following your cursor. Click again to save the new position."
         title_fill = (0.04, 0.30, 0.10, 0.965)
     else:
-        title = "CLICK THE TRANSLUCENT SDK MODS BUTTON TO PICK IT UP"
+        title = "CLICK THE TRANSLUCENT MATT'S MODS BUTTON TO PICK IT UP"
         body = "Then move your mouse and click again where you want the launcher placed. Press Cancel or Esc to return."
         title_fill = (0.0, 0.12, 0.15, 0.965)
 
     # Simple floating instructions only.  No nested position submenu.
     ix, iy, iw = 420, 165, 1080
-    f.border_text(menu, "MOVE SDK MODS BUTTON", ix, iy, iw, 64,
+    f.border_text(menu, "MOVE MATT'S MODS BUTTON", ix, iy, iw, 64,
                   (0.00, 0.48, 0.55, 0.99), 0.58, 90)
     f.border_text(menu, title, ix, iy + 86, iw, 62,
                   title_fill, 0.46, 90)
@@ -2513,7 +2513,7 @@ def build_main_screen() -> None:
     rec = selected_record()
 
     build_menu_shell(f, menu)
-    build_header(f, menu, "SDK MODS MENU")
+    build_header(f, menu, "MATT'S BL4 MODS MENU")
     search_active = bool(STATE.text_input_target and STATE.text_input_target.get("search"))
     search_msg = STATE.text_input_buffer if search_active else (STATE.search_text if STATE.search_text else "click to type search")
     search_fill = (0.16, 0.22, 0.03, 0.98) if search_active else (0.0, 0.08, 0.10, 0.98)
@@ -3149,7 +3149,7 @@ def poll_buttons() -> None:
                 begin_text_input_button_block((), duration=0.75)
                 commit_text_input()
                 return
-            # While a BL4NativeModsMenu text field owns input, do not poll normal
+            # While a MattsBL4ModsMenu text field owns input, do not poll normal
             # menu buttons at all. This prevents Slate focused-button activation
             # from toggling Mods/Keybinds or clicking whatever was focused when
             # Enter is pressed/released.
@@ -3295,7 +3295,7 @@ def build_pause_launcher() -> None:
         set_raw_slot(bg, 0, 0, LAUNCHER_W, LAUNCHER_H, 5)
 
         tb = construct("/Script/UMG.TextBlock", tree)
-        try_call(tb, "SetText", "SDK MODS")
+        try_call(tb, "SetText", "MATT'S MODS")
         try_call(tb, "SetJustification", 1)
         try_call(tb, "SetRenderScale", vec2(1.55, 1.55))
         set_hit_test_invisible(tb)
@@ -3305,7 +3305,7 @@ def build_pause_launcher() -> None:
         STATE.launcher_buttons.append(ButtonRef(
             button=btn,
             action=lambda: open_menu(True),
-            label="SDK MODS",
+            label="MATT'S MODS",
             enabled=True,
             visual=bg,
             rect=(*launcher_position(), *launcher_render_size()),
@@ -3342,7 +3342,7 @@ def menu_def_name_from_args(args: Any) -> str:
 
 
 def is_launcher_menu_def(args: Any) -> bool:
-    """Return True for menus where the SDK MODS launcher should appear."""
+    """Return True for menus where the Matt's Mods launcher should appear."""
     name = menu_def_name_from_args(args).lower()
     if "def_menu_pause" in name or "menu_pause" in name:
         return True
@@ -4482,7 +4482,7 @@ def native_mods_menu_unstuck_cmd(_args) -> None:
     log("Unstuck / input restored")
 
 
-@command("native_mods_menu_text_scale", description="Set BL4NativeModsMenu text scale, for example: native_mods_menu_text_scale 1.6")
+@command("native_mods_menu_text_scale", description="Set MattsBL4ModsMenu text scale, for example: native_mods_menu_text_scale 1.6")
 def native_mods_menu_text_scale_cmd(args) -> None:
     try:
         if isinstance(args, (list, tuple)):
@@ -4495,14 +4495,14 @@ def native_mods_menu_text_scale_cmd(args) -> None:
 
 
 
-@command("native_mods_menu_button_position", description="Set SDK MODS launcher position: top_left, top_right, bottom_left, bottom_right, custom [x y].")
+@command("native_mods_menu_button_position", description="Set Matt's Mods launcher position: top_left, top_right, bottom_left, bottom_right, custom [x y].")
 def native_mods_menu_button_position_cmd(args) -> None:
     try:
         parts = [safe_str(a) for a in list(args or [])]
     except Exception:
         parts = []
     if not parts:
-        log(f"SDK MODS button position: {launcher_position_label()}")
+        log(f"Matt's Mods button position: {launcher_position_label()}")
         return
     mode = parts[0].lower().replace("-", "_")
     if mode == "custom" and len(parts) >= 3:
@@ -4565,12 +4565,13 @@ except Exception as exc:
 
 _BUILD_MOD_KWARGS = dict(
     cls=mods_base.Mod,
-    name="BL4NativeModsMenu",
+    name="MattsBL4ModsMenu",
     author="Mattmab",
     description=(
-        "Native runtime UMG SDK mods menu for BL4. Uses a standalone viewport "
-        "overlay, clean widget ownership, one polling loop, production naming, "
-        "DPI-correct native runtime UMG SDK mods menu with standalone viewport overlay, reusable UMG factories, camera-hook button polling, passive pause launcher, and CINEMATIC UI state ownership while open."
+        "Unofficial community-made BL4 PythonSDK mod manager UI by Matt. "
+        "Not part of, endorsed by, or maintained by the PythonSDK/bl-sdk project. "
+        "Adds an in-game UMG menu for browsing, searching, configuring, "
+        "reloading, and rebinding installed SDK mods."
     ),
     supported_games=Game.BL4,
     coop_support=CoopSupport.ClientSide,
