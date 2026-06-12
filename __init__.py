@@ -17,7 +17,7 @@ from mods_base import CoopSupport, Game, build_mod, command
 from unrealsdk import logging
 from unrealsdk.hooks import Type, Block
 
-VERSION = "v1.1.12-matts-unofficial-name"
+VERSION = "v1.1.13-sdk-mods-button-label"
 PREFIX = "[MattsBL4ModsMenu]"
 DEBUG_LOGGING = False
 
@@ -1194,7 +1194,7 @@ def build_launcher_position_preview() -> None:
             set_raw_slot(bg, 0, 0, LAUNCHER_W, LAUNCHER_H, 5)
 
             tb = construct("/Script/UMG.TextBlock", widget.WidgetTree)
-            try_call(tb, "SetText", "MATT'S MODS")
+            try_call(tb, "SetText", "SDK MODS")
             try_call(tb, "SetJustification", 1)
             try_call(tb, "SetRenderScale", vec2(1.55, 1.55))
             set_hit_test_invisible(tb)
@@ -2478,13 +2478,13 @@ def build_button_position_screen() -> None:
         body = "The translucent Matt's Mods button is following your cursor. Click again to save the new position."
         title_fill = (0.04, 0.30, 0.10, 0.965)
     else:
-        title = "CLICK THE TRANSLUCENT MATT'S MODS BUTTON TO PICK IT UP"
+        title = "CLICK THE TRANSLUCENT SDK MODS BUTTON TO PICK IT UP"
         body = "Then move your mouse and click again where you want the launcher placed. Press Cancel or Esc to return."
         title_fill = (0.0, 0.12, 0.15, 0.965)
 
     # Simple floating instructions only.  No nested position submenu.
     ix, iy, iw = 420, 165, 1080
-    f.border_text(menu, "MOVE MATT'S MODS BUTTON", ix, iy, iw, 64,
+    f.border_text(menu, "MOVE SDK MODS BUTTON", ix, iy, iw, 64,
                   (0.00, 0.48, 0.55, 0.99), 0.58, 90)
     f.border_text(menu, title, ix, iy + 86, iw, 62,
                   title_fill, 0.46, 90)
@@ -3295,7 +3295,7 @@ def build_pause_launcher() -> None:
         set_raw_slot(bg, 0, 0, LAUNCHER_W, LAUNCHER_H, 5)
 
         tb = construct("/Script/UMG.TextBlock", tree)
-        try_call(tb, "SetText", "MATT'S MODS")
+        try_call(tb, "SetText", "SDK MODS")
         try_call(tb, "SetJustification", 1)
         try_call(tb, "SetRenderScale", vec2(1.55, 1.55))
         set_hit_test_invisible(tb)
@@ -3305,7 +3305,7 @@ def build_pause_launcher() -> None:
         STATE.launcher_buttons.append(ButtonRef(
             button=btn,
             action=lambda: open_menu(True),
-            label="MATT'S MODS",
+            label="SDK MODS",
             enabled=True,
             visual=bg,
             rect=(*launcher_position(), *launcher_render_size()),
