@@ -1,11 +1,23 @@
-# BL4NativeModsMenu
+# Matt's BL4 Mods Menu
 
-BL4NativeModsMenu adds a native in-game SDK mods menu for Borderlands 4. It gives players a clean UMG-based interface for managing installed PythonSDK mods without needing to rely on console commands for everyday mod management.
+**Unofficial community mod.** Matt's BL4 Mods Menu is not part of, endorsed by, or maintained by the PythonSDK/bl-sdk project, the official SDK mod database maintainers, Gearbox, or 2K. It is a third-party Borderlands 4 mod made by Mattmab for managing installed PythonSDK mods from inside the game.
 
-The menu adds an **SDK MODS** launcher button to supported BL4 menu screens and opens a full native overlay for browsing installed SDK mods. From the Mods tab, you can search installed mods, filter the list, inspect selected mod metadata, preview exposed options, open a mod's settings, enable or disable supported mods, refresh the list, and reload compatible mods directly from the menu.
+Matt's BL4 Mods Menu adds an in-game UMG-based menu for browsing installed Borderlands 4 PythonSDK mods without relying on console commands for everyday mod management. It is intended as a convenience UI for players who already use PythonSDK mods.
 
-BL4NativeModsMenu also includes a **Keybinds** tab for viewing and rebinding SDK mod keybinds from inside the game. Keybind capture is handled through the menu UI, including support for clearing/unbinding keys and avoiding conflicts with BL4 menu input where possible.
+## Features
 
-Quality-of-life features include adjustable text scaling, a movable SDK MODS launcher button, persistent settings saved under `sdk_mods/settings/BL4NativeModsMenu/`, and a native search box for quickly finding installed mods. The launcher is designed to appear only in supported menu contexts, such as the title/main menu and pause menu, rather than appearing over inventory or other gameplay submenus.
+- Adds a **SDK MODS** launcher button in supported Borderlands 4 menu contexts.
+- Opens a native overlay for browsing installed SDK mods.
+- Search and filter the installed mods list.
+- View selected mod metadata and exposed options.
+- Open supported mod settings from the menu.
+- Enable or disable toggleable mods.
+- Reload compatible mods from the menu.
+- View and rebind SDK mod keybinds.
+- Adjust the menu text scale.
+- Move the launcher button and save its position.
+- Saves user settings under `sdk_mods/settings/MattsBL4ModsMenu/`.
 
-Use this mod if you want a native Borderlands 4 UI for managing SDK mods, opening mod settings, reloading mods, changing SDK keybinds, searching installed mods, and adjusting the SDK MODS launcher position without typing console commands.
+## Important note
+
+This mod is unofficial. It should not be confused with the PythonSDK itself, the official SDK mod database, or any built-in/official Borderlands 4 SDK menu. If something breaks, report it to this mod's repository rather than to the SDK maintainers.
